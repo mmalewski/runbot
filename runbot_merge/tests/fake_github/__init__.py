@@ -533,6 +533,14 @@ class Repo(object):
 
         return (201, c.to_json())
 
+    def _read_user(self, _, user):
+        return (200, {
+            'id': id(user),
+            'type': 'User',
+            'login': user,
+            'name': user.capitalize(),
+        })
+
     _handlers = [
         ('POST', r'git/refs', _create_ref),
         ('GET', r'git/refs/(?P<ref>.*)', _read_ref),
@@ -556,6 +564,8 @@ class Repo(object):
 
         ('POST', r'issues/(?P<number>\d+)/labels', _add_labels),
         ('DELETE', r'issues/(?P<number>\d+)/labels/(?P<label>.+)', _remove_label),
+
+        ('GET', r'users/(?P<user>.+)', _read_user),
     ]
 
 class Issue(object):
