@@ -444,6 +444,9 @@ class runbot_build(models.Model):
                 build._logger('running %s', build.job)
                 job_method = getattr(self, '_' + build.job)  # compute the job method to run
                 os.makedirs(build._path('logs'), exist_ok=True)
+                os.makedirs(build._path('datadir'), exist_ok=True)
+                os.chmod(build._path('logs'), 0o0777)
+                os.chmod(build._path('datadir'), 0o0777)
                 lock_path = build._path('logs', '%s.lock' % build.job)
                 log_path = build._path('logs', '%s.txt' % build.job)
                 try:
